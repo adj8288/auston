@@ -16,7 +16,7 @@ class TemperatureConverter
         return $response->CelsiusToFahrenheitResult;
     }
 
-    public function FahrenheitToCelsius($f)
+    public function FahrenheitToCelsius($f) //retrieve element from the URL above
     {
         $response = $this->client->FahrenheitToCelsius(array("Fahrenheit" => $f));
         return $response->FahrenheitToCelsiusResult;
