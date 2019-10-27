@@ -5,8 +5,8 @@ class M2M
     private $client;
     private $username = "19aus_P2502255";
     private $password = "Singapore123";
-    private $deviceMSISDN = "82887250";
-    private $countryCode = "65";
+    private $deviceMSISDN = "+6582887250";
+    private $countryCode = "";
 
     public function __construct()
     {
@@ -28,7 +28,7 @@ class M2M
 
     public function sendMessage($message)
     {
-        $response = $this->client->sendMessage($this->username, $this->password, $this->deviceMSISDN, $message, true, "");
+        $response = $this->client->sendMessage($this->username, $this->password, $this->deviceMSISDN, $message, true, "SMS");
         return $response;
     }
 }
