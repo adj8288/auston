@@ -1,24 +1,34 @@
 <?php
 
-class TemperatureConverter
+class M2M
 {
     private $client;
+    private $username = "19aus_P2502255";
+    private $password = "Singapore123";
+    private $deviceMSISDN = "82887250";
+    private $countryCode = "65";
 
-    public function __construct() //constructor (opening function/method)
+    public function __construct()
     {
-        $wsdl = "https://www.w3schools.com/xml/tempconvert.asmx?WSDL";                
-        $this->client = new SoapClient($wsdl); //create a client based on the URL
+        $wsdl = "https://m2mconnect.ee.co.uk/orange-soap/services/MessageServiceByCountry?wsdl";                
+        $this->client = new SoapClient($wsdl);
     }
 
-    public function CelsiusToFahrenheit($c) //retrieve element from the URL above
+    public function peekMessages()
     {
-        $response = $this->client->CelsiusToFahrenheit(array("Celsius" => $c));
-        return $response->CelsiusToFahrenheitResult;
+        $response = $this->client->peekMessages($this->username, $this->password, 10, "", "");
+        return $response;
     }
 
-    public function FahrenheitToCelsius($f) //retrieve element from the URL above
+    public function getDeliveryReports()
     {
-        $response = $this->client->FahrenheitToCelsius(array("Fahrenheit" => $f));
-        return $response->FahrenheitToCelsiusResult;
+        $response = $this->client->getDeliveryReports($this->username, $this->password, $this->deviceMSISDN, $this->countryCode);
+        return $response;
+    }
+
+    public function sendMessage($message)
+    {
+        $response = $this->client->sendMessage($this->username, $this->password, $this->deviceMSISDN, $message, true, "");
+        return $response;
     }
 }

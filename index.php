@@ -3,17 +3,14 @@
 use \Psr\Http\Message\ResponseInterface as Response;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 
-
-//part of SLIM Framework (1 time)
 $container['tc'] = function ($container) {
     require 'soap.php';
-    $model = new TemperatureConverter();
+    $model = new M2M();
     return $model;
 };
 
-//input the container here
 $app = new \Slim\App($container);
 
 $app->get('/hello/{name}', function (Request $request, Response $response) {
@@ -22,20 +19,28 @@ $app->get('/hello/{name}', function (Request $request, Response $response) {
     return $response;
 });
 
-$app->get('/celsius/{t}', function (Request $request, Response $response) { //curly {t} is an ID to identify
-    $c = $request->getAttribute('t'); //get all the input 1 value at a time for this case
-    $tc = $this->get('tc'); //get the soap client
-    $f = $tc->CelsiusToFahrenheit($c); //call the method which belongs to the soap
-    $response->getBody()->write($f); //output in http or JSON object
+$app->get('/messages', function (Request $request, Response $response) {
+    $tc = $this->get('tc');
+    $m = $tc->peekMessages();
+    $response->getBody()->write(print_r($m, true));
     return $response;
 });
 
-$app->get('/fahrenheit/{t}', function (Request $request, Response $response) {
-    $f = $request->getAttribute('t');
-    $tc = $this->get('tc'); //calling the temperature converter class method
-    $c = $tc->FahrenheitToCelsius($f);
-    $response->getBody()->write($c);
+$app->get('/delivery', function (Request $request, Response $response) {
+    $tc = $this->get('tc');
+    $r = $tc->getDeliveryReports();
+    $response->getBody()->write(print_r($r, true));
     return $response;
 });
+
+
+$app->get('/message/{msg}', function (Request $request, Response $response) {
+    $tc = $this->get('tc');
+    $msg = $request->getAttribute('msg');
+    $r = $tc->sendMessage($msg);
+    $response->getBody()->write(print_r($r, true));
+    return $response;
+});
+
 
 $app->run();
