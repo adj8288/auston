@@ -38,7 +38,6 @@
                     return $response;
                 });
 
-
                 $app->get('/message/{msg}', function (Request $request, Response $response) {
                     $tc = $this->get('tc');
                     $msg = $request->getAttribute('msg');
@@ -48,4 +47,9 @@
                 });
 
 
+
                 $app->run();
+
+
+
+
