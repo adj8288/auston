@@ -1,30 +1,24 @@
 <?php
-
 /**
  * Connect MySQL with PDO class
  */
-class db
-{
+class db {
 
-    private $dbhost = '127.0.0.1';
-    private $dbuser = 'dingjie';
-    private $dbpass = 'dingjie';
-    private $dbname = 'auston';
+    private $dbhost = 'localhost';
+    private $dbuser = 'root';
+    private $dbpass = '';
+    private $dbname = 'slimapi';
 
-    public function connect()
-    {
+    public function connect() {
 
         // https://www.php.net/manual/en/pdo.connections.php
-        $prepare_conn_str = "mysql:host=$this->dbhost;dbname=$this->dbname;port";
-        $pdo = new PDO($prepare_conn_str, $this->dbuser, $this->dbpass);
+        $prepare_conn_str = "mysql:host=$this->dbhost;dbname=$this->dbname;port=3306";
+        $dbConn = new PDO( $prepare_conn_str, $this->dbuser, $this->dbpass );
 
         // https://www.php.net/manual/en/pdo.setattribute.php
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dbConn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 
         // return the database connection back
-        return $pdo;
+        return $dbConn;
     }
 }
-
-
-
